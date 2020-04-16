@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Route;
+use App\Nota;
 
 /*
 |--------------------------------------------------------------------------
@@ -16,3 +18,8 @@ use Illuminate\Http\Request;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+Route::get('nota', 'NotaController@index');
+Route::get('nota/{nota}', 'NotaController@show');
+Route::post('nota', 'NotaController@store');
+Route::put('nota/{nota}', 'NotaController@update');
+Route::delete('nota/{nota}', 'NotaController@delete');
