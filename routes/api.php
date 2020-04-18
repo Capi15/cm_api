@@ -23,3 +23,6 @@ Route::get('nota/{nota}', 'NotaController@show');
 Route::post('nota', 'NotaController@store');
 Route::put('nota/{nota}', 'NotaController@update');
 Route::delete('nota/{nota}', 'NotaController@delete');
+Route::post('register', 'Auth\RegisterController@register');
+Route::post('login', 'Auth\LoginController@login');
+Route::post('logout', 'Auth\LoginController@logout');
