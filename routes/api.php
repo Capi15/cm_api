@@ -18,15 +18,13 @@ use App\Nota;
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
-Route::get('nota', 'NotaController@index');
-Route::get('nota/{nota}', 'NotaController@show');
-Route::post('nota', 'NotaController@store');
-Route::put('nota/{nota}', 'NotaController@update');
-Route::delete('nota/{nota}', 'NotaController@delete');
+
+//a middleware permite verificar se há algum utilizador logado
+Route::get('nota', 'NotaController@index')->middleware('verifyLogin');
+Route::get('nota/{nota}', 'NotaController@show')->middleware('verifyLogin');
+Route::post('nota', 'NotaController@store')->middleware('verifyLogin');
+Route::put('nota/{nota}', 'NotaController@update')->middleware('verifyLogin');
+Route::delete('nota/{nota}', 'NotaController@delete')->middleware('verifyLogin');
 Route::post('register', 'Auth\RegisterController@register');
 Route::post('login', 'Auth\LoginController@login');
 Route::post('logout', 'Auth\LoginController@logout');
-Route::middleware('auth:api')
-    ->get('/user', function (Request $request) {
-        return $request->user();
-    });
