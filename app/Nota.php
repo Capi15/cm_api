@@ -6,5 +6,5 @@ use Illuminate\Database\Eloquent\Model;
 
 class Nota extends Model
 {
-    protected $fillable = ['titulo', 'descricao', 'data'];
+    protected $fillable = ['titulo', 'descricao', 'data', 'foto', 'localizacao', 'user_id'];
 }

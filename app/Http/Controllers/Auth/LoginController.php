@@ -47,7 +47,7 @@ class LoginController extends Controller
 
         if ($this->attemptLogin($request)) {
             $user = $this->guard()->user();
-            $oi = $user->generateToken();
+            $user->generateToken();
 
             return response()->json([
                 'data' => $user->toArray(),
@@ -59,11 +59,13 @@ class LoginController extends Controller
 
     public function logout(Request $request)
     {
-        $user = Auth::guard('api')->user();
+        $user = User::where('api_token', $request->header('api_token'))->first();
 
         if ($user) {
             $user->api_token = null;
             $user->save();
+        } else {
+            return response()->json(['data' => 'Ups, user not found'], 404);
         }
 
         return response()->json(['data' => 'User logged out.'], 200);
