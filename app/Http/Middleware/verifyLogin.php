@@ -4,7 +4,6 @@ namespace App\Http\Middleware;
 
 use App\User;
 use Closure;
-use Symfony\Component\HttpFoundation\Test\Constraint\ResponseStatusCodeSame;
 
 class verifyLogin
 {
@@ -20,8 +19,8 @@ class verifyLogin
     public function handle($request, Closure $next)
     {
         //procura na base de dados por um utilizador que tenha este token
-        $user = User::where('api_token', $request->header('api_token'))->first();
-        if (!$user) {
+        $user = User::where('api_token', $request->header('Authorization'))->first();
+        if ($request->header('Authorization') === null || !$user) {
             return response()->json(['error' => '403'], 403);
         }
         return $next($request);
