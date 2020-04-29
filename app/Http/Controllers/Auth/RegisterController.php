@@ -75,6 +75,7 @@ class RegisterController extends Controller
             return response()->json(['erro' => "ERROU"], 400);
         }
         return User::create([
+            'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
