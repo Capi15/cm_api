@@ -56,6 +56,7 @@ class LoginController extends Controller
         $user = User::where('email', $request->email)->first();
         $password = $user->password;
         if (Hash::check($request->input('password'), $password)) {
+            $user->generateToken();
             return $user;
         } else {
             return response()->json(['erro' => "utilizador não encontrado"], 400);
