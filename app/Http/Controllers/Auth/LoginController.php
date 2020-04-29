@@ -8,6 +8,7 @@ use App\User;
 use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 
 class LoginController extends Controller
@@ -46,23 +47,19 @@ class LoginController extends Controller
     {
         $validator = Validator::make($request->toArray(), [
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'email' => ['required', 'string', 'email', 'max:255'],
             'password' => ['required', 'string', 'min:8'],
         ]);
         if ($validator->fails()) {
-            return response()->json(['erro' => "ERROU"], 400);
+            return response()->json(['erro' => "ERROU de novo"], 400);
         }
-
-        if ($this->attemptLogin($request)) {
-            $user = $this->guard()->user();
-            $user->generateToken();
-
-            return response()->json([
-                'data' => $user->toArray(),
-            ]);
+        $user = User::where('email', $request->email)->first();
+        $password = $user->password;
+        if (Hash::check($request->input('password'), $password)) {
+            return $user;
+        } else {
+            return response()->json(['erro' => "utilizador não encontrado"], 400);
         }
-
-        return $this->sendFailedLoginResponse($request);
     }
 
     public function logout(Request $request)
