@@ -64,8 +64,16 @@ class RegisterController extends Controller
      * @param  array  $data
      * @return \App\User
      */
-    protected function create(array $data)
+    protected function create(Request $data)
     {
+        $validator = Validator::make($data->toArray(), [
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
+            'password' => ['required', 'string', 'min:8'],
+        ]);
+        if ($validator->fails()) {
+            return response()->json(['erro' => "ERROU"], 400);
+        }
         return User::create([
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
@@ -90,8 +98,7 @@ class RegisterController extends Controller
         // registered() method or it returns null, redirect him to
         // some other URL. In our case, we just need to implement
         // that method to return the correct response.
-        return $this->registered($request, $user)
-            ?: redirect($this->redirectPath());
+        return $this->registered($request, $user);
     }
 
     protected function registered(Request $request, $user)
