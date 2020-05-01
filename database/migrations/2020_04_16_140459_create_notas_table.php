@@ -17,7 +17,7 @@ class CreateNotasTable extends Migration
             $table->bigIncrements('id');
             $table->string('titulo');
             $table->string('descricao');
-            $table->string('foto');
+            $table->text('foto');
             $table->double('latitude');
             $table->double('longitude');
             $table->unsignedBigInteger('user_id');
