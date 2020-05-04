@@ -21,10 +21,10 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 //a middleware permite verificar se há algum utilizador logado
 Route::get('nota', 'NotaController@index')->middleware('verifyLogin');
-Route::get('nota/{nota}', 'NotaController@show')->middleware('verifyLogin');
+Route::get('nota/{id}', 'NotaController@show')->middleware('verifyLogin');
 Route::post('nota', 'NotaController@store')->middleware('verifyLogin');
-Route::put('nota/{nota}', 'NotaController@update')->middleware('verifyLogin');
-Route::delete('nota/{nota}', 'NotaController@delete')->middleware('verifyLogin');
+Route::put('nota/{id}', 'NotaController@update')->middleware('verifyLogin');
+Route::delete('nota/{id}', 'NotaController@delete')->middleware('verifyLogin');
 Route::post('register', 'Auth\RegisterController@create');
 Route::post('login', 'Auth\LoginController@login');
 Route::post('logout', 'Auth\LoginController@logout');
